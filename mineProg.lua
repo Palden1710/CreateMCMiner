@@ -11,7 +11,6 @@ local defInc = 120
 local addInc = 10
 local inc = 0
 
-refCont.moveAwayOne(16)
 local target = map.rowAuto()
 print("Going into first loop")
 while map.retStatus(1) == false and mine.getMineInt() == false do

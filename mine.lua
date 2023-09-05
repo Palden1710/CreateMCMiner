@@ -14,8 +14,11 @@ local function startMining(time)
     print("Mining Timer for "..time.." started \n")
     print("To cancel Mining early, press the \"q\" key")
     repeat
-        event, id = os.pullEvent()        
-    until id == minTimer and event == "timer" or id == "q" 
+        event, id = os.pullEvent() 
+        if event == "mineInt" and id == true then
+        mineInt = true
+        end       
+    until id == minTimer and event == "timer" or id == "q" or mineInt == true
     print("Mining completed, returning to surface")
     if id == "q" then
         mineInt = true

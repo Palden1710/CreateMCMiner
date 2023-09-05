@@ -9,8 +9,11 @@ local input = nil
 local input2 = nil
 
 repeat
+term.clear()
+term.setCursorPos(1,1)
 print("Welcome to the mining configurator for the Create miner!")
 print("To begin please make a selection below")
+print(" ")
 print("a - Run Startup (new mining location)")
 print("b - Resume mining!")
 print("c - Deposit Items mined and pause miner")
@@ -24,18 +27,25 @@ local event, id = os.pullEvent("char")
     refCont.moveAwayOne(16)
     local minShell = shell.openTab("mineProg", current, deposit, 256)
     elseif id == "c" then
-    mine.setMineInt(true)
+    os.queueEvent("mineInt", true)
     sleep(120)
-    mine.depositStop(map.rowAuto(), 2)
+    mine.depositStop(map.rowAuto(), deposit)
     elseif id == "d" then
+    os.queueEvent("mineInt", true)
+    sleep(120)
+    mine.depositStop(map.rowAuto(), deposit)
     os.shutdown()
     elseif id == "e" then
         repeat
+        term.clear()
+        term.setCursorPos(1,1)
         print("Please choose what you'd like to configure")
+        print(" ")
         print("a - Row Status (enter as row, status)")
         print("b - Row Depth (enter as row, depth)")
         print("c - Current miner position (1 being closest, 16 being farthest")
         print("d - Deposit Row")
+        print("e - change outptut locations")
         print("x - return to main menu")
         local event2, id2 = os.pullEvent("char")
         if id2 == "a" then
@@ -73,8 +83,35 @@ local event, id = os.pullEvent("char")
             if depo < 1 or depo > 16 then
                 print("Error, number outside of range!")
             else deposit = depo
-            end          
-        end
+            end
+        elseif id2 == "e" then
+            print("Enter the side connected to the gantry axle")
+            local gantSet = read()
+            if gantSet ~= "right" or "left" or "front" or "back" or "top" or "bottom" then
+                print("Incorrect side entered")
+            else
+				settings.set("gantryAxle", gantSet)
+				print("Now enter the side the gearbox is on")
+				local gearSet = read()
+				if gearSet ~= "right" or "left" or "front" or "back" or "top" or "bottom" then
+					print("Incorrect side entered")
+				else
+					settings.set("gearbox", gearSet)
+					print("Lastly, enter the side the clutch is on")
+					local clutchSet = read()
+					if clutchSet ~= "right" or "left" or "front" or "back" or "top" or "bottom" then
+						print(" Incorrect side entered")
+					else settings.set("clutch", clutchSet)
+					if settings.save() == true then
+						print("Settings saved successfully!")
+					else
+						print("Something's gone TERRIBLY wrong. Settings not saved :(")
+					end
+				end
+            
+			end     
+			end
+		end
         until id2 == "x"
     end
 until false

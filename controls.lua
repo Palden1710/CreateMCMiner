@@ -7,11 +7,11 @@ gantryAxle = settings.get("gantryAxle", "back")
 clutch = settings.get("clutch", "front")
 
 local function stopPower()
-    redstone.setOutput(gantryAxle, true)
+    redstone.setOutput(clutch, true)
 end
 
 local function startPower()
-    redstone.setOutput(gantryAxle, false)
+    redstone.setOutput(clutch, false)
 end
 
 local function stopOutput()

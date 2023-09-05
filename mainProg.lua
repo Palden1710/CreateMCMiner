@@ -21,9 +21,12 @@ local event, id = os.pullEvent("char")
     if id == "a" then
     map.buildStatus()
     elseif id == "b" then
-    
+    refCont.moveAwayOne(16)
+    local minShell = shell.openTab("mineProg", current, deposit, 256)
     elseif id == "c" then
-    mine.deposit(current, deposit)
+    mine.setMineInt(true)
+    sleep(120)
+    mine.depositStop(map.rowAuto(), 2)
     elseif id == "d" then
     os.shutdown()
     elseif id == "e" then

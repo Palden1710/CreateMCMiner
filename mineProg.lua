@@ -1,18 +1,20 @@
+local current, deposit, depth = ...
+current = tonumber(current)
+deposit = tonumber(deposit)
+depth = tonumber(depth)
+
 local controls = require("controls")
 local refCont = require("refCont")
 local mine = require("mine")
 local map = require("map")
 
-local current, deposit, depth = ...
-current = tonumber(current)
-deposit = tonumber(deposit)
-depth = tonumber(depth)
 local defInc = 120
 local addInc = 10
 local inc = 0
 
 local target = map.rowAuto()
 print("Going into first loop")
+print(map.retStatus(1) == false)
 while map.retStatus(1) == false and mine.getMineInt() == false do
     print("first function")
     local miningRow = map.rowAuto()
@@ -31,6 +33,7 @@ while map.retStatus(1) == false and mine.getMineInt() == false do
             else
                 print("made to break")
                 break
+            end
         end
     inc = 0
     print("Made to end of primary loop")
@@ -43,5 +46,5 @@ if mine.getMineInt() == true then
 else
         print("Mining completed! Please move the miner and re-build the table!")
 end
-end
+
 

@@ -31,19 +31,9 @@ end
 mine.startMining = startMining
 
 local function deposit(currentRow, depositRow)
-
-    refCont.minerReturn()
-    local retTimer=os.startTimer(30)
-    print("Miner returning to carriage")
-    repeat
-        event, id = os.pullEvent("timer")
-    until id == retTimer
-    print("Miner now parked")
     
     if currentRow == depositRow then
-        refCont.moveTowardsOne(2)
         sleep(45)
-        refCont.moveAwayOne(2)
     elseif currentRow > depositRow then
         refCont.moveTowardsOne(currentRow - depositRow)
         sleep(60)
@@ -57,8 +47,20 @@ local function deposit(currentRow, depositRow)
     end
     print("Miner materials deposited")
 end
-
 mine.deposit = deposit
+
+local function depositStop(currentRow, depositRow)
+    if currentRow == depositRow then
+        sleep(45)
+    elseif currentRow > depositRow then
+        refCont.moveTowardsOne(currentRow - depositRow)
+    elseif currentRow < depositRow then
+        refCont.moveTowardsOne(depositRow - currentRow)
+    end
+end
+mine.depositStop = depositStop
+    
+    
 
 local function getMineInt()
     return mineInt

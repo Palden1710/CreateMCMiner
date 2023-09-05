@@ -12,19 +12,19 @@ local function buildStatus()
     repeat
         table.insert(rowDepth, 1)
     until #rowDepth == 16
-    fs.delete("/customPrograms/coords.txt")
-    fs.delete("/customPrograms/rowstatus.txt")
-    local rowStat = fs.open("/customPrograms/rowstatus.txt", "w")
+    fs.delete("/coords.txt")
+    fs.delete("/rowstatus.txt")
+    local rowStat = fs.open("/rowstatus.txt", "w")
     rowStat.write(textutils.serialise(rowStatus))
     rowStat.close()
-    local rowDepthStat = fs.open("/customPrograms/rowdepth.txt", "w")
+    local rowDepthStat = fs.open("rowdepth.txt", "w")
     rowDepthStat.write(textutils.serialise(rowDepth))
     rowDepthStat.close()
 end
 map.buildStatus = buildStatus
 
 local function loadStatus()
-    local rowStat = io.open("/customPrograms/rowstatus.txt", "r")
+    local rowStat = io.open("/rowstatus.txt", "r")
     local data = rowStat:read("*a")
     rowStatus = textutils.unserialize(data)
     rowStat:close()
@@ -32,7 +32,7 @@ end
 map.loadStatus = loadStatus
 
 local function loadDepth()
-    local rowDepthStat = fs.open("/customPrograms/rowdepth.txt", "r")
+    local rowDepthStat = fs.open("/rowdepth.txt", "r")
     local data = rowDepthStat.readAll()
     rowDepth = textutils.unserialise(data)
     rowDepthStat.close()
@@ -42,7 +42,7 @@ map.loadDepth = loadDepth
 local function updateStatus(row, status)
     loadStatus()
     rowStatus[row] = status
-    local rowStat = fs.open("/customPrograms/rowstatus.txt", "w")
+    local rowStat = fs.open("/rowstatus.txt", "w")
     rowStat.write(textutils.serialise(rowStatus))
     rowStat.close()
 end
@@ -69,7 +69,7 @@ local function incDepth(row, amount)
     if rowDepth[row] >= maxDepth then
         updateStatus(row, true)
     end
-    rowDepthStat = fs.open("/customPrograms/rowdepth.txt", "w")
+    rowDepthStat = fs.open("/rowdepth.txt", "w")
     rowDepthStat.write(textutils.serialise(rowDepth))
     rowDepthStat.close()
 end
@@ -81,7 +81,7 @@ local function setDepth(row, depth)
     if rowDepth[row] >= maxDepth then
         updateStatus(row,true)
     end
-    rowDepthStat = fs.open("/customPrograms/rowdepth.txt", "w")
+    rowDepthStat = fs.open("/rowdepth.txt", "w")
     rowDepthStat.write(textutils.serialise(rowDepth))
     rowDepthStat.close()
 end

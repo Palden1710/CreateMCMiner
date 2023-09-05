@@ -1,46 +1,54 @@
+local gearbox = "left"
+local gantryAxle = "back"
+local clutch = "front"
+
+gearbox = settings.get("gearbox", "left")
+gantryAxle = settings.get("gantryAxle", "back")
+clutch = settings.get("clutch", "front")
+
 local function stopPower()
-    redstone.setOutput("front", true)
+    redstone.setOutput(gantryAxle, true)
 end
 
 local function startPower()
-    redstone.setOutput("front", false)
+    redstone.setOutput(gantryAxle, false)
 end
 
 local function stopOutput()
-    if redstone.getOutput("back") == true then
-        redstone.setOutput("back", false)
+    if redstone.getOutput(gantryAxle) == true then
+        redstone.setOutput(gantryAxle, false)
     end
-    if redstone.getOutput("left") == true then
-        redstone.setOutput("left", false)
+    if redstone.getOutput(gearbox) == true then
+        redstone.setOutput(gearbox, false)
     end
-    if redstone.getOutput("front") == true then
-        redstone.setOutput("front", false)
+    if redstone.getOutput(clutch) == true then
+        redstone.setOutput(clutch, false)
     end
 end
 
 local function lowerMiner()
-    redstone.setOutput("back", true)
-    redstone.setOutput("left", false)
+    redstone.setOutput(gantryAxle, true)
+    redstone.setOutput(gearbox, false)
     startPower()
 end
 
 local function raiseMiner()
-    redstone.setOutput("back", true)
-    redstone.setOutput("left", true)
+    redstone.setOutput(gantryAxle, true)
+    redstone.setOutput(gearbox, true)
     startPower()
 end
 
 local function gantryAway()
     stopPower()
-    redstone.setOutput("back", false)
-    redstone.setOutput("left", false)
+    redstone.setOutput(gantryAxle, false)
+    redstone.setOutput(gearbox, false)
     startPower()
 end
 
 local function gantryTowards()
     stopPower()
-    redstone.setOutput("back", false)
-    redstone.setOutput("left", true)
+    redstone.setOutput(gantryAxle, false)
+    redstone.setOutput(gearbox, true)
     startPower()
 end
 
